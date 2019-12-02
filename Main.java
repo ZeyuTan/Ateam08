@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -80,6 +81,7 @@ public class Main extends Application {
      * method to setup centerbox
      */
     public void setUpCenterBox() {
+        centerBox.setAlignment(Pos.CENTER);
         centerBox.getChildren().addAll(new Label("(Social Network Graph)"));
     }
 
@@ -89,7 +91,6 @@ public class Main extends Application {
     public void setUpBottomBox() {
         HBox hb = new HBox();
         
-
         Button showAll = new Button("Show All");
         Button addP = new Button("Add Person");
         Button removeP = new Button("Remove Person");
@@ -166,7 +167,7 @@ public class Main extends Application {
      * method to draw a graph
      */
     private void drawGraph(Graph graph) {
-
+        
     }
 
     /*
@@ -204,7 +205,7 @@ public class Main extends Application {
         setUpMenuBox();
         setUpCenterBox();
         setUpBottomBox();
-        root.setLeft(menuBar);
+        root.setTop(menuBar);
         root.setRight(signUpBox);
         root.setCenter(centerBox);
         root.setBottom(bottomBox);
