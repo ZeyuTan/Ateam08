@@ -11,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,9 +24,16 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 
@@ -34,14 +43,17 @@ public class Main extends Application {
     private static final int WINDOW_HEIGHT = 500;
     private static final String APP_TITLE = "Social Network";
 
-    private BorderPane root = new BorderPane();
+
     public VBox signUpBox = new VBox();
     public VBox twoInputBox = new VBox();
     public VBox centerBox = new VBox();
     public VBox bottomBox = new VBox();
     public MenuBar menuBar = new MenuBar();
-    private String centerUser;
     
+    private String centerUser;    
+    private Scene mainScene;
+    private BorderPane root = new BorderPane();
+    StackPane stack = new StackPane();
     private VBox addPerson = new VBox();
     private VBox removePerson = new VBox();
     private VBox addRelation = new VBox();
@@ -82,7 +94,7 @@ public class Main extends Application {
      */
     public void setUpCenterBox() {
         centerBox.setAlignment(Pos.CENTER);
-        centerBox.getChildren().addAll(new Label("(Social Network Graph)"));
+        centerBox.getChildren().addAll(stack);
     }
 
     /*
@@ -140,7 +152,7 @@ public class Main extends Application {
         MenuItem view1 = new MenuItem("Show All");
 
         view1.setOnAction((ActionEvent e) -> {
-
+            drawGraph();
         });
         action1.setOnAction((ActionEvent e) -> {
             addPerson.setVisible(true);
@@ -166,8 +178,43 @@ public class Main extends Application {
     /*
      * method to draw a graph
      */
-    private void drawGraph(Graph graph) {
+    private void drawGraph() {
+        Text text = new Text("UserA");
+        Circle circle = encircle(text);
+        text.setBoundsType(TextBoundsType.VISUAL); 
+        stack.getChildren().addAll(circle, text);
+    }
+    private Circle encircle(Text text) {
         
+        Circle circle = new Circle();
+        circle.setFill(Color.WHITE);
+        final double PADDING = 10;
+        circle.setRadius(getWidth(text) / 2 + PADDING);
+        circle.addEventHandler(MouseEvent.MOUSE_PRESSED,
+            new EventHandler<MouseEvent>() {
+              public void handle(MouseEvent me) {
+                
+              }
+            });
+        circle.addEventHandler(MouseEvent.MOUSE_ENTERED,
+            new EventHandler<MouseEvent>() {
+              public void handle(MouseEvent me) {
+                  mainScene.setCursor(Cursor.HAND);
+              }
+            });
+        circle.addEventHandler(MouseEvent.MOUSE_EXITED,
+            new EventHandler<MouseEvent>() {
+              public void handle(MouseEvent me) {
+                  mainScene.setCursor(Cursor.DEFAULT);
+              }
+            });
+        return circle;
+    }
+    private double getWidth(Text text) {
+        new Scene(new Group(text));
+        text.applyCss();
+
+        return text.getLayoutBounds().getWidth();
     }
 
     /*
@@ -209,7 +256,7 @@ public class Main extends Application {
         root.setRight(signUpBox);
         root.setCenter(centerBox);
         root.setBottom(bottomBox);
-        Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+        mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         primaryStage.setTitle(APP_TITLE);
         primaryStage.setScene(mainScene);
         primaryStage.show();
