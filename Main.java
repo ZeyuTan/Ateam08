@@ -106,11 +106,23 @@ public class Main extends Application {
         Button removeP = new Button("Remove Person");
         Button addR = new Button("Add Friendship");
         Button removeR = new Button("Remove Friendship");
-
-        addPerson.getChildren().addAll(new TextField(), addP);
-        removePerson.getChildren().addAll(new TextField(), removeP);
-        addRelation.getChildren().addAll(new TextField(), new TextField(), addR);
-        removeRelation.getChildren().addAll(new TextField(), new TextField(), removeR);
+        
+        TextField tf1 = new TextField();
+        TextField tf2 = new TextField();
+        TextField tf3 = new TextField();
+        TextField tf4 = new TextField();
+        TextField tf5 = new TextField();
+        TextField tf6 = new TextField();
+        tf1.setPromptText("Type person here");
+        tf2.setPromptText("Type person here");
+        tf3.setPromptText("Type person1 here");
+        tf4.setPromptText("Type person2 here");
+        tf5.setPromptText("Type person1 here");
+        tf6.setPromptText("Type person2 here");
+        addPerson.getChildren().addAll(tf1, addP);
+        removePerson.getChildren().addAll(tf2, removeP);
+        addRelation.getChildren().addAll(tf3, tf4, addR);
+        removeRelation.getChildren().addAll(tf5, tf6, removeR);
 
         addPerson.setVisible(false);
         removePerson.setVisible(false);
@@ -148,6 +160,9 @@ public class Main extends Application {
         MenuItem action4 = new MenuItem("Remove Relationship");
         Menu view = new Menu("View");
         MenuItem view1 = new MenuItem("Show All");
+        Menu status = new Menu("Status");
+        MenuItem status1 = new MenuItem("Show Logs");
+        
 
         view1.setOnAction((ActionEvent e) -> {
             drawGraph();
@@ -168,8 +183,9 @@ public class Main extends Application {
         file.getItems().addAll(file1, file2);
         action.getItems().addAll(action1, action2, action3, action4);
         view.getItems().addAll(view1);
+        status.getItems().addAll(status1);
 
-        menuBar.getMenus().addAll(file, action, view);
+        menuBar.getMenus().addAll(file, action, view, status);
     }
 
 
@@ -196,7 +212,6 @@ public class Main extends Application {
         Circle circle = drawCircle(text);
         circle.setLayoutX(x);
         circle.setLayoutY(y);
-//        text.setBoundsType(TextBoundsType.VISUAL);
         pane.getChildren().addAll(circle, text);
     }
 
