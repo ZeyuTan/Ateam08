@@ -16,7 +16,6 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -31,9 +30,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 
@@ -179,13 +178,9 @@ public class Main extends Application {
      * method to draw a graph
      */
     private void drawGraph() {
-        Text text = new Text("UserA");
-        Circle circle = encircle(text);
-        text.setBoundsType(TextBoundsType.VISUAL); 
-        stack.getChildren().addAll(circle, text);
+        
     }
     private Circle encircle(Text text) {
-        
         Circle circle = new Circle();
         circle.setFill(Color.WHITE);
         final double PADDING = 10;
@@ -220,17 +215,27 @@ public class Main extends Application {
     /*
      * method to draw Node
      */
-    // private void drawNode(Graph graph,String name, double x, double y) {
-    //
-    // }
+     private void drawNode(String name, double x, double y) {
+         Text text = new Text(name);
+         Circle circle = encircle(text);
+         text.setBoundsType(TextBoundsType.VISUAL); 
+         stack.getChildren().addAll(circle, text);
+         circle.setLayoutX(x);
+         circle.setLayoutX(y);
+     }
 
     /*
      * method to draw edge
      */
-    // private void drawEdge(Graph graph,double x1, double x2, double y1, double y2) {
-    //
-    // }
-    //
+     private void drawEdge(double x1, double x2, double y1, double y2) {
+         Line line = new Line();
+         line.setStartX(x1);
+         line.setStartY(y1);
+         line.setEndX(x2);
+         line.setEndY(y2);
+         stack.getChildren().addAll(line);
+     }
+    
     /*
      * method to get name by xy coordinate
      */
