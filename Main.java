@@ -54,10 +54,7 @@ public class Main extends Application {
     private Scene mainScene;
     private BorderPane root = new BorderPane();
     Pane pane = new Pane();
-    private VBox addPerson = new VBox();
-    private VBox removePerson = new VBox();
-    private VBox addRelation = new VBox();
-    private VBox removeRelation = new VBox();
+    private VBox singleInputBox = new VBox();
 
     /*
      * method to setup signUpBox
@@ -75,16 +72,16 @@ public class Main extends Application {
      * method to setup twoinputBox
      */
     public void setUpTwoInputBox() {
-        HBox hb1 = new HBox();
-        HBox hb2 = new HBox();
         TextField tf1 = new TextField();
         TextField tf2 = new TextField();
-        Label l1 = new Label("Info");
-        Label l2 = new Label("Info");
-        hb1.getChildren().addAll(l1, tf1);
-        hb2.getChildren().addAll(l2, tf2);
+        tf1.setPromptText("Type person1 here");
+        tf2.setPromptText("Type person2 here");
         Button bt = new Button("Done");
-        twoInputBox.getChildren().addAll(hb1, hb2, bt);
+        twoInputBox.setVisible(false);
+        bt.setOnAction((ActionEvent e) -> {
+            twoInputBox.setVisible(false);
+        });
+        twoInputBox.getChildren().addAll(tf1, tf2, bt);
     }
 
     /*
@@ -101,48 +98,21 @@ public class Main extends Application {
     public void setUpBottomBox() {
         HBox hb = new HBox();
 
-        Button showAll = new Button("Show All");
-        Button addP = new Button("Add Person");
-        Button removeP = new Button("Remove Person");
-        Button addR = new Button("Add Friendship");
-        Button removeR = new Button("Remove Friendship");
+        Button bt1 = new Button("Done");
         
         TextField tf1 = new TextField();
-        TextField tf2 = new TextField();
-        TextField tf3 = new TextField();
-        TextField tf4 = new TextField();
-        TextField tf5 = new TextField();
-        TextField tf6 = new TextField();
         tf1.setPromptText("Type person here");
-        tf2.setPromptText("Type person here");
-        tf3.setPromptText("Type person1 here");
-        tf4.setPromptText("Type person2 here");
-        tf5.setPromptText("Type person1 here");
-        tf6.setPromptText("Type person2 here");
-        addPerson.getChildren().addAll(tf1, addP);
-        removePerson.getChildren().addAll(tf2, removeP);
-        addRelation.getChildren().addAll(tf3, tf4, addR);
-        removeRelation.getChildren().addAll(tf5, tf6, removeR);
 
-        addPerson.setVisible(false);
-        removePerson.setVisible(false);
-        addRelation.setVisible(false);
-        removeRelation.setVisible(false);
+        singleInputBox.getChildren().addAll(tf1, bt1);
 
-        addP.setOnAction((ActionEvent e) -> {
-            addPerson.setVisible(false);
-        });
-        removeP.setOnAction((ActionEvent e) -> {
-            removePerson.setVisible(false);
-        });
-        addR.setOnAction((ActionEvent e) -> {
-            addRelation.setVisible(false);
-        });
-        removeR.setOnAction((ActionEvent e) -> {
-            removeRelation.setVisible(false);
-        });
+        singleInputBox.setVisible(false);
 
-        hb.getChildren().addAll(addPerson, removePerson, addRelation, removeRelation);
+        bt1.setOnAction((ActionEvent e) -> {
+            singleInputBox.setVisible(false);
+        });
+        
+        setUpTwoInputBox();
+        hb.getChildren().addAll(singleInputBox, twoInputBox);
         bottomBox.getChildren().addAll(hb);
     }
 
@@ -168,16 +138,16 @@ public class Main extends Application {
             drawGraph();
         });
         action1.setOnAction((ActionEvent e) -> {
-            addPerson.setVisible(true);
+            singleInputBox.setVisible(true);
         });
         action2.setOnAction((ActionEvent e) -> {
-            removePerson.setVisible(true);
+            singleInputBox.setVisible(true);
         });
         action3.setOnAction((ActionEvent e) -> {
-            addRelation.setVisible(true);
+            twoInputBox.setVisible(true);
         });
         action4.setOnAction((ActionEvent e) -> {
-            removeRelation.setVisible(true);
+            twoInputBox.setVisible(true);
         });
 
         file.getItems().addAll(file1, file2);
@@ -274,7 +244,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         args = this.getParameters().getRaw();
         setUpSignUpBox();
-        setUpTwoInputBox();
         setUpMenuBox();
         setUpCenterBox();
         setUpBottomBox();
