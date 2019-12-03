@@ -193,14 +193,14 @@ public class Main extends Application {
         Text text = new Text(name);
         text.setLayoutX(x - getWidth(text)/2);
         text.setLayoutY(y);
-        Circle circle = encircle(text);
+        Circle circle = drawCircle(text);
         circle.setLayoutX(x);
         circle.setLayoutY(y);
-        text.setBoundsType(TextBoundsType.VISUAL);
+//        text.setBoundsType(TextBoundsType.VISUAL);
         pane.getChildren().addAll(circle, text);
     }
 
-    private Circle encircle(Text text) {
+    private Circle drawCircle(Text text) {
         Circle circle = new Circle();
         circle.setFill(Color.WHITE);
         final double PADDING = 10;
@@ -228,11 +228,6 @@ public class Main extends Application {
         new Scene(new Group(text));
         text.applyCss();
         return text.getLayoutBounds().getWidth();
-    }
-    private double getHeight(Text text) {
-        new Scene(new Group(text));
-        text.applyCss();
-        return text.getLayoutBounds().getHeight();
     }
 
     /*
