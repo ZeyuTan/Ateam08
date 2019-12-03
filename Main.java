@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -26,7 +27,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -48,11 +49,11 @@ public class Main extends Application {
     public VBox centerBox = new VBox();
     public VBox bottomBox = new VBox();
     public MenuBar menuBar = new MenuBar();
-    
-    private String centerUser;    
+
+    private String centerUser;
     private Scene mainScene;
     private BorderPane root = new BorderPane();
-    StackPane stack = new StackPane();
+    Pane pane = new Pane();
     private VBox addPerson = new VBox();
     private VBox removePerson = new VBox();
     private VBox addRelation = new VBox();
@@ -63,13 +64,11 @@ public class Main extends Application {
      */
     public void setUpSignUpBox() {
         HBox hb1 = new HBox();
-        HBox hb2 = new HBox();
         TextField tf1 = new TextField();
-        TextField tf2 = new TextField();
         Label l1 = new Label("Username");
         hb1.getChildren().addAll(l1, tf1);
         Button bt = new Button("Sign Up");
-        signUpBox.getChildren().addAll(hb1, hb2, bt);
+        signUpBox.getChildren().addAll(hb1, bt);
     }
 
     /*
@@ -93,7 +92,7 @@ public class Main extends Application {
      */
     public void setUpCenterBox() {
         centerBox.setAlignment(Pos.CENTER);
-        centerBox.getChildren().addAll(stack);
+        centerBox.getChildren().addAll(pane);
     }
 
     /*
@@ -101,7 +100,7 @@ public class Main extends Application {
      */
     public void setUpBottomBox() {
         HBox hb = new HBox();
-        
+
         Button showAll = new Button("Show All");
         Button addP = new Button("Add Person");
         Button removeP = new Button("Remove Person");
@@ -117,7 +116,7 @@ public class Main extends Application {
         removePerson.setVisible(false);
         addRelation.setVisible(false);
         removeRelation.setVisible(false);
-        
+
         addP.setOnAction((ActionEvent e) -> {
             addPerson.setVisible(false);
         });
@@ -178,64 +177,76 @@ public class Main extends Application {
      * method to draw a graph
      */
     private void drawGraph() {
-        
+        drawEdge(200, 100, 50, 50);
+        drawEdge(200, 300, 50, 50);
+        drawNode("UserA", 200, 50);
+        drawNode("UserB", 100, 50);
+        drawNode("UserC", 300, 50);
+
     }
+
+
+    /*
+     * method to draw Node
+     */
+    private void drawNode(String name, double x, double y) {
+        Text text = new Text(name);
+        text.setLayoutX(x - getWidth(text)/2);
+        text.setLayoutY(y);
+        Circle circle = encircle(text);
+        circle.setLayoutX(x);
+        circle.setLayoutY(y);
+        text.setBoundsType(TextBoundsType.VISUAL);
+        pane.getChildren().addAll(circle, text);
+    }
+
     private Circle encircle(Text text) {
         Circle circle = new Circle();
         circle.setFill(Color.WHITE);
         final double PADDING = 10;
         circle.setRadius(getWidth(text) / 2 + PADDING);
-        circle.addEventHandler(MouseEvent.MOUSE_PRESSED,
-            new EventHandler<MouseEvent>() {
-              public void handle(MouseEvent me) {
-                
-              }
-            });
-        circle.addEventHandler(MouseEvent.MOUSE_ENTERED,
-            new EventHandler<MouseEvent>() {
-              public void handle(MouseEvent me) {
-                  mainScene.setCursor(Cursor.HAND);
-              }
-            });
-        circle.addEventHandler(MouseEvent.MOUSE_EXITED,
-            new EventHandler<MouseEvent>() {
-              public void handle(MouseEvent me) {
-                  mainScene.setCursor(Cursor.DEFAULT);
-              }
-            });
+        circle.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent me) {
+
+            }
+        });
+        circle.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent me) {
+                mainScene.setCursor(Cursor.HAND);
+            }
+        });
+        circle.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent me) {
+                mainScene.setCursor(Cursor.DEFAULT);
+            }
+        });
+        
         return circle;
     }
+
     private double getWidth(Text text) {
         new Scene(new Group(text));
         text.applyCss();
-
         return text.getLayoutBounds().getWidth();
     }
-
-    /*
-     * method to draw Node
-     */
-     private void drawNode(String name, double x, double y) {
-         Text text = new Text(name);
-         Circle circle = encircle(text);
-         text.setBoundsType(TextBoundsType.VISUAL); 
-         stack.getChildren().addAll(circle, text);
-         circle.setLayoutX(x);
-         circle.setLayoutX(y);
-     }
+    private double getHeight(Text text) {
+        new Scene(new Group(text));
+        text.applyCss();
+        return text.getLayoutBounds().getHeight();
+    }
 
     /*
      * method to draw edge
      */
-     private void drawEdge(double x1, double x2, double y1, double y2) {
-         Line line = new Line();
-         line.setStartX(x1);
-         line.setStartY(y1);
-         line.setEndX(x2);
-         line.setEndY(y2);
-         stack.getChildren().addAll(line);
-     }
-    
+    private void drawEdge(double x1, double x2, double y1, double y2) {
+        Line line = new Line();
+        line.setStartX(x1);
+        line.setStartY(y1);
+        line.setEndX(x2);
+        line.setEndY(y2);
+        pane.getChildren().addAll(line);
+    }
+
     /*
      * method to get name by xy coordinate
      */
