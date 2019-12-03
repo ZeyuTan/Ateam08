@@ -55,6 +55,7 @@ public class Main extends Application {
     private BorderPane root = new BorderPane();
     Pane pane = new Pane();
     private VBox singleInputBox = new VBox();
+    private VBox showNum = new VBox();
 
     /*
      * method to setup signUpBox
@@ -83,7 +84,19 @@ public class Main extends Application {
         });
         twoInputBox.getChildren().addAll(tf1, tf2, bt);
     }
-
+    /*
+     * method to setup group numberOfGroup
+     */
+    private void numberOfGroup() {
+        Label lb = new Label("Number of Groups:");
+        Text text = new Text("1");
+        Button bt = new Button("Close");
+        showNum.setVisible(false);
+        bt.setOnAction((ActionEvent e) -> {
+            showNum.setVisible(false);
+        });
+        showNum.getChildren().addAll(lb, text, bt);
+    }
     /*
      * method to setup centerbox
      */
@@ -112,7 +125,8 @@ public class Main extends Application {
         });
         
         setUpTwoInputBox();
-        hb.getChildren().addAll(singleInputBox, twoInputBox);
+        numberOfGroup();
+        hb.getChildren().addAll(singleInputBox, twoInputBox, showNum);
         bottomBox.getChildren().addAll(hb);
     }
 
@@ -128,6 +142,9 @@ public class Main extends Application {
         MenuItem action2 = new MenuItem("Remove Person");
         MenuItem action3 = new MenuItem("Add Relationship");
         MenuItem action4 = new MenuItem("Remove Relationship");
+        MenuItem action5 = new MenuItem("Mutual Friends of Two Person");
+        MenuItem action6 = new MenuItem("Shortest Friendship Path of Two Person");
+        MenuItem action7 = new MenuItem("Current Number of Groups");
         Menu view = new Menu("View");
         MenuItem view1 = new MenuItem("Show All");
         Menu status = new Menu("Status");
@@ -149,9 +166,18 @@ public class Main extends Application {
         action4.setOnAction((ActionEvent e) -> {
             twoInputBox.setVisible(true);
         });
+        action5.setOnAction((ActionEvent e) -> {
+            twoInputBox.setVisible(true);
+        });
+        action6.setOnAction((ActionEvent e) -> {
+            twoInputBox.setVisible(true);
+        });
+        action7.setOnAction((ActionEvent e) -> {
+            showNum.setVisible(true);
+        });
 
         file.getItems().addAll(file1, file2);
-        action.getItems().addAll(action1, action2, action3, action4);
+        action.getItems().addAll(action1, action2, action3, action4, action5,action6, action7);
         view.getItems().addAll(view1);
         status.getItems().addAll(status1);
 
