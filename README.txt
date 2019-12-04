@@ -12,8 +12,9 @@ Team Members:
  
 
 Which team members were on same xteam together?
-None.
+Zeyu Tan and Shouzhe Li were in the same xteam: team 21
 
 Other notes or comments to the grader:
 
 [place any comments or notes that will help the grader here]
+If you want to show example data(one person with two friendships), click "view" in the Manu bar and click "show all". The person and friendships will show up.
